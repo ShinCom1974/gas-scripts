@@ -26,10 +26,10 @@ function loadSalesData(ss) {
   if (!sheet) throw new Error("「売上データ」シートが見つかりません");
 
   const lastRow = sheet.getLastRow();
-  // ヘッダー行がない前提。1行目からデータとして扱う
-  if (lastRow < 1) return [];
+  // 1行目はヘッダー行のためスキップ。データが1行もない場合は空を返す
+  if (lastRow < 2) return [];
 
-  const values = sheet.getRange(1, 1, lastRow, 4).getValues();
+  const values = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
 
   return values
     .filter(row => row[0] && row[3] !== "")  // 日付・金額が空の行をスキップ
